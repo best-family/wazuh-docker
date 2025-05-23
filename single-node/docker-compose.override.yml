@@ -1,0 +1,18 @@
+---
+name: wazuh-docker
+services:
+  wazuh.manager:
+    networks:
+      - wazuh
+  wazuh.indexer:
+    networks:
+      - wazuh
+  wazuh.dashboard:
+    ports:
+      - 4433:5601
+    networks:
+      - wazuh
+
+networks:
+  wazuh:
+    external: true
