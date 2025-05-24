@@ -8,10 +8,19 @@ services:
     networks:
       - wazuh
   wazuh.dashboard:
-    ports:
+    ports: !override
       - 4433:5601
     networks:
       - wazuh
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.wazuh-dashboard.tls=true
+      - traefik.http.routers.wazuh-dashboard.tls.certresolver=letsencrypt
+      - traefik.http.routers.wazuh-dashboard.entrypoints=websecure
+      - traefik.http.routers.wazuh-dashboard.rule=Host(`siem.mtcolah.bestfamily.id.au`)
+      - "traefik.http.services.wazuh-dashboard.loadbalancer.serversTransport=insecureTransport@file"
+      - "traefik.http.services.wazuh-dashboard.loadbalancer.server.url=https://wazuh.dashboard:5601"
+      - traefik.docker.network=wazuh
 
 networks:
   wazuh:
