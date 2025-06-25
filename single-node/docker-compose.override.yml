@@ -4,6 +4,8 @@ services:
   wazuh.manager:
     networks:
       - wazuh
+    environment:
+      - INDEXER_PASSWORD=${INDEXER_PASSWORD}
   wazuh.indexer:
     networks:
       - wazuh
@@ -12,6 +14,8 @@ services:
       - 4433:5601
     networks:
       - wazuh
+    environment:
+      - INDEXER_PASSWORD=${INDEXER_PASSWORD}
     labels:
       - traefik.enable=true
       - traefik.http.routers.wazuh-dashboard.tls=true
